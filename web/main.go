@@ -2,15 +2,16 @@ package main
 
 import (
 	"database/sql"
+	"log"
+	"net/http"
+	"os"
+	"time"
+
 	"github.com/codegangsta/negroni"
 	"github.com/eminetto/pos-web-go/core/beer"
 	"github.com/eminetto/pos-web-go/web/handlers"
 	"github.com/gorilla/mux"
 	_ "github.com/mattn/go-sqlite3"
-	"log"
-	"net/http"
-	"os"
-	"time"
 )
 
 func main() {
@@ -25,6 +26,7 @@ func main() {
 	//aqui podemos colocar logs, inclusão e validação de cabeçalhos, etc
 	n := negroni.New(
 		negroni.NewLogger(),
+		negroni.HandlerFunc(addContentType),
 	)
 	//handlers
 	handlers.MakeBeerHandlers(r, n, service)
@@ -54,5 +56,16 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+}
 
+func addContentType(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
+	contentTypeHeader := "text/html"
+
+	switch r.Header.Get("Accept") {
+	case "application/json":
+		contentTypeHeader = "application/json"
+	}
+
+	w.Header().Set("Content-Type", contentTypeHeader)
+	next(w, r)
 }

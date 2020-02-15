@@ -1,2 +1,6 @@
 # pos-web-go
-Conteúdo da disciplina Desenvolvimento Web Com Go
+Trabalho da disciplina Desenvolvimento Web Com Go
+
+Alunos: 
+- Elvis Muniz da Silva - elvismuniz1406@gmail.com
+- Gustavo Sabior Antoniassi - gus.antoniassi@gmail.com
